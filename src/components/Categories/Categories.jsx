@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState}  from 'react';
 import CategoriesItem from "../ui/CategoriesItem/CategoriesItem";
-import {useState} from "react";
+
 function Categories(props) {
     const catList = [
         {id: 'all', name: 'Все'},
