@@ -1,20 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import Pizza from "../Pizza/Pizza";
 import PageTitle from "../ui/PageTitle/PageTitle";
+import pizzaData from '../../assets/db.json'
 
 function PizzaList(props) {
 
     const [pizzas, setPizzas] = useState()
     useEffect(()=>{
 
-        const fetchPizzas =  async ()=> {await fetch('https://fakestoreapi.com/products?limit=10')
-            .then(res=>res.json())
-            .then(data=>setPizzas(data))
 
-        }
+        setTimeout(()=>{
+            setPizzas(pizzaData.pizzas)
+        }, 1000)
 
-        fetchPizzas()
-
+        // fetch('https://fakestoreapi.com/products?limit=10')
+        //     .then(res=>res.json())
+        //     .then(data=>setPizzas(data))
 
     }, [])
 
@@ -33,9 +34,15 @@ function PizzaList(props) {
                 {pizzas.map((pizza) =>
                     <Pizza
                         key={pizza.id}
-                        title={pizza.title}
-                        price={pizza.price * 10}
-                        img={pizza.image}
+                        {...pizza}
+                        // title={pizza.name}
+                        //
+                        // price={pizza.price}
+                        // imgUrl={pizza.imageUrl}
+                        // // category={pizza.category}
+                        // // rating={pizza.rating}
+                        // sizes={pizza.sizes}
+                        // types={pizza.types}
                     />)}
             </div>
         </>
