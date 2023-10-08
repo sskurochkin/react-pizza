@@ -45,7 +45,7 @@ function Pizza({name, price, imageUrl, sizes, types, ...children}) {
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>2</i>
+                    <i>0</i>
                 </div>
             </div>
         </div>

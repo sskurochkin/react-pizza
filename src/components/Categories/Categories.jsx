@@ -1,32 +1,30 @@
 import React, {useState}  from 'react';
 import CategoriesItem from "../ui/CategoriesItem/CategoriesItem";
 
-function Categories(props) {
+function Categories({value, onClickCategory}) {
     const catList = [
-        {id: 'all', name: 'Все'},
-        {id: 'meat', name: 'Мясные'},
-        {id: 'veg', name: 'Вегетарианская'},
-        {id: 'grill', name: 'Гриль'},
-        {id: 'hot', name: 'Острые'},
-        {id: 'closed', name: 'Закрытые'},
+        {name: 'Все'},
+        {name: 'Мясные'},
+        {name: 'Вегетарианская'},
+        {name: 'Гриль'},
+        {name: 'Острые'},
+        {name: 'Закрытые'},
     ]
 
-    const [activeFilter, setActiveFilter] = useState(catList[0].id)
-
     const filterHandler = (id)=>{
-        setActiveFilter(id)
+        onClickCategory(id)
     }
 
     return (
         <div className="categories">
             <ul>
-                {catList.map(item=>
+                {catList.map((item, index)=>
                     <CategoriesItem
-                        key={item.id}
-                        id={item.id}
+                        key={index}
+                        id={index}
                         name={item.name}
-                        onClick={()=>filterHandler(item.id)}
-                        className={activeFilter === item.id ? 'active' : ''}
+                        onClick={()=>filterHandler(index)}
+                        className={value === index ? 'active' : ''}
                     />)
                 }
             </ul>

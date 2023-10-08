@@ -1,10 +1,10 @@
 import React from "react";
 import './assets/scss/app.scss'
 import Header from "./components/Header/Header";
-import Categories from "./components/Categories/Categories";
-import Sort from "./components/Sort/Sort";
-import PizzaList from "./components/PizzaList/PizzaList";
-import PageTitle from "./components/ui/PageTitle/PageTitle";
+import Home from "./pages/Home";
+import PageNotFound from "./pages/PageNotFound";
+import {Route, Routes} from "react-router-dom";
+import Cart from "./pages/Cart";
 
 
 function App() {
@@ -14,13 +14,12 @@ function App() {
           <div className="content">
 
               <div className="container">
-
-                  <div className="content__top">
-                        {/*<Categories/>*/}
-                        <Sort/>
-                  </div>
-
-                    <PizzaList/>
+                  <Routes>
+                      <Route path={'/'} element={<Home/>}/>
+                      <Route path={'/cart'} element={<Cart/>}/>
+                      {/*<Route path={'/pizzas/:id'} element={<PageNotFound/>}/>*/}
+                      <Route path={'*'} element={<PageNotFound/>}/>
+                  </Routes>
               </div>
           </div>
       </div>
