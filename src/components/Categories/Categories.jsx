@@ -1,7 +1,7 @@
 import React, {useState}  from 'react';
 import CategoriesItem from "../ui/CategoriesItem/CategoriesItem";
 
-function Categories({value, onClickCategory}) {
+function Categories({value, onChangeCategory}) {
     const catList = [
         {name: 'Все'},
         {name: 'Мясные'},
@@ -11,10 +11,6 @@ function Categories({value, onClickCategory}) {
         {name: 'Закрытые'},
     ]
 
-    const filterHandler = (id)=>{
-        onClickCategory(id)
-    }
-
     return (
         <div className="categories">
             <ul>
@@ -23,7 +19,7 @@ function Categories({value, onClickCategory}) {
                         key={index}
                         id={index}
                         name={item.name}
-                        onClick={()=>filterHandler(index)}
+                        onClick={()=>onChangeCategory(index)}
                         className={value === index ? 'active' : ''}
                     />)
                 }

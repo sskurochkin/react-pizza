@@ -9,7 +9,7 @@ const sortNames = [
     {name: 'алфавиту -', sortValue: '-title'}]
 function Sort({sort, sortHandlerClick}) {
 
-    console.log(sort)
+
     const [isOpen , setIsOpen] = useState(false)
 
 
