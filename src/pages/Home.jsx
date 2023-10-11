@@ -1,7 +1,6 @@
 import Sort from "../components/Sort/Sort";
-// import PizzaList from "../components/PizzaList/PizzaList";
+
 import React, {useContext, useEffect, useState} from "react";
-import ReactPaginate from "react-paginate";
 import Categories from "../components/Categories/Categories";
 import PageTitle from "../components/ui/PageTitle/PageTitle";
 import Pizza from "../components/Pizza/Pizza";
@@ -9,18 +8,18 @@ import PizzaSkeleton from "../components/Pizza/PizzaSceleton";
 import Pagination from "../components/ui/Pagination";
 import {SearchContext} from "../context/SearchContext";
 import {useDispatch, useSelector} from "react-redux";
-import {changeCategory} from "../slices/filterSlice";
+import {changeCategory, setCurrentPage} from "../slices/filterSlice";
+import axios from "axios";
 
 function Home() {
 
-    const {activeCategory,  sort}= useSelector((state)=>state.filter)
+    const {activeCategory, currentPage,  sort}= useSelector((state)=>state.filter)
     const sortValue= sort.sortValue
     const dispatch = useDispatch()
 
 
-
     const {searchValue} = useContext(SearchContext)
-    const [page, setPage] = useState(1)
+
     const [loading, setLoading] = useState(true)
     const [pizzas, setPizzas] = useState([])
 
@@ -34,21 +33,23 @@ function Home() {
 
         setLoading(true)
 
-        fetch(`https://65228f44f43b17938414a280.mockapi.io/items?page=${page}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
-            .then(res => res.json())
-            .then(data => {
-                setPizzas(data)
-                setLoading(false)
-            }).catch((e) => {
-                console.log(e)
-                setPizzas([])
-                setLoading(true)
-            }
-        )
+        axios.get(`https://65228f44f43b17938414a280.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
+            .then(res => {
+                        setPizzas(res.data)
+                        setLoading(false)
+            })
+            .catch((e) => {
+                        console.log(e)
+                        setPizzas([])
+                        setLoading(true)
+                    }
+                )
+
         window.scrollTo(0, 0)
-    }, [activeCategory, sortValue, searchValue, page])
+    }, [activeCategory, sortValue, searchValue, currentPage])
 
-
+    const onChangePage = number => {
+        dispatch(setCurrentPage(number))}
 
     const items = pizzas.map((pizza) => <Pizza
         key={pizza.id}
@@ -79,7 +80,7 @@ function Home() {
 
             <View/>
 
-            <Pagination onChangePage={(number)=>setPage(number)}/>
+            <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
 
 
         </>)
