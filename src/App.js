@@ -15,7 +15,6 @@ function App() {
 
     const [searchValue, setSearchValue] = React.useState('')
 
-    console.log(store)
 
   return (
       <div className="wrapper">

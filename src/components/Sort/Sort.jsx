@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {changeSort} from "../../slices/filterSlice";
 
 const sortNames = [
     {name: 'популярности +', sortValue: 'rating'},
@@ -7,12 +9,18 @@ const sortNames = [
     {name: 'цене -', sortValue: '-price'},
     {name: 'алфавиту +', sortValue: 'title'},
     {name: 'алфавиту -', sortValue: '-title'}]
-function Sort({sort, sortHandlerClick}) {
 
+function Sort() {
 
+    const sort= useSelector((state)=>state.filter.sort)
+    const dispatch = useDispatch()
     const [isOpen , setIsOpen] = useState(false)
 
+    const handleClickSort = (obj)=>{
+        dispatch(changeSort(obj))
+        setIsOpen(false)
 
+    }
 
     return (
         <div className="sort">
@@ -38,7 +46,13 @@ function Sort({sort, sortHandlerClick}) {
                 <div className="sort__popup">
                     <ul>
 
-                        {sortNames.map((item, i)=>  <li key={i} onClick={()=>{setIsOpen(false); sortHandlerClick(item)}} className={sort.sortValue===item.sortValue ? 'active':''}>{item.name}</li>)}
+                        {sortNames.map((item, i)=>
+                            <li
+                                key={i}
+                                onClick={()=>handleClickSort(item)}
+                                className={sort.sortValue===item.sortValue ? 'active':''}>{item.name}
+                            </li>
+                        )}
                     </ul>
                 </div>
             }

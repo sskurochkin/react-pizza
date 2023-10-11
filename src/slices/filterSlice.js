@@ -14,7 +14,8 @@ export const filterSlice = createSlice({
     initialState,
     reducers: {
         changeCategory(state, action){state.activeCategory = action.payload},
-        changeSort: (state, action) => state.sort = action.payload
+        changeSort: (state, action) => {
+            state.sort = action.payload}
     }
 })
 

@@ -9,42 +9,28 @@ import PizzaSkeleton from "../components/Pizza/PizzaSceleton";
 import Pagination from "../components/ui/Pagination";
 import {SearchContext} from "../context/SearchContext";
 import {useDispatch, useSelector} from "react-redux";
-import {changeCategory, changeSort} from "../slice/filterSlice";
+import {changeCategory} from "../slices/filterSlice";
 
 function Home() {
 
     const {activeCategory,  sort}= useSelector((state)=>state.filter)
-
+    const sortValue= sort.sortValue
     const dispatch = useDispatch()
 
-    console.log(activeCategory, sort)
+
 
     const {searchValue} = useContext(SearchContext)
     const [page, setPage] = useState(1)
-    // const [activeCategory, setActiveCategory] = useState(0)
     const [loading, setLoading] = useState(true)
     const [pizzas, setPizzas] = useState([])
-    // const [sort, setSort] = useState({
-    //     name: 'популярности',
-    //     sortValue: 'rating'
-    // })
-
-
-    const onChangeCategory = (id)=>{
-        // console.log(id)
-        dispatch(changeCategory(id))
-
-    }
-
 
 
     useEffect(() => {
 
         const category = activeCategory > 0 ? `category=${activeCategory}` : ''
-        const sortBy = sort.sortValue.replace('-', '')
-        const order = sort.sortValue.includes('-') ? 'asc' : 'desc'
+        const sortBy = sortValue.replace('-', '')
+        const order = sortValue.includes('-') ? 'asc' : 'desc'
         const search = searchValue ? `&search=${searchValue}` : ''
-
 
         setLoading(true)
 
@@ -60,10 +46,7 @@ function Home() {
             }
         )
         window.scrollTo(0, 0)
-    }, [activeCategory, sort, searchValue, page])
-
-
-
+    }, [activeCategory, sortValue, searchValue, page])
 
 
 
@@ -71,7 +54,7 @@ function Home() {
         key={pizza.id}
         {...pizza}
     />)
-    const skeleton = [...new Array(6)].map((item, i) => <PizzaSkeleton key={i}/>)
+    const skeleton = [...new Array(4)].map((item, i) => <PizzaSkeleton key={i}/>)
 
 
 
@@ -89,8 +72,8 @@ function Home() {
     return (
         <>
             <div className="content__top">
-                <Categories value={activeCategory} onChangeCategory={onChangeCategory}/>
-                {/*<Sort sort={sort} sortHandlerClick={(i) => setSort(i)}/>*/}
+                <Categories value={activeCategory} onChangeCategory={(id)=>dispatch(changeCategory(id))}/>
+                <Sort/>
             </div>
             <PageTitle title='Все пиццы'/>
 
